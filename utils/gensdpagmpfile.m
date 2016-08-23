@@ -1,4 +1,4 @@
-function my_gensdpafile(filename,mDIM,nBLOCK,bLOCKsTRUCT,c,F,header)
+function gensdpagmpfile(filename,mDIM,nBLOCK,bLOCKsTRUCT,c,F,header)
 % 
 % Generate SDP data file with SDPA Sparse format
 % 

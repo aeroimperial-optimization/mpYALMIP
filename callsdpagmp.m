@@ -1,25 +1,7 @@
 function output = callsdpagmp(interfacedata)
 
-%fprintf('Calling SDPA-GMP...');
-path2sdpagmp = '/usr/local/bin/';
-
-% Check if param.sdpa file exists in pwd
-if ~exist([pwd,'/param.sdpa'],'file')
-    % write it with default parameters, otherwise failure!
-    fID = fopen([pwd,'/param.sdpa'],'w');
-    fprintf(fID,'200         unsigned int    maxIteration;\n');
-    fprintf(fID,'1.0E-25     double          0.0 < epsilonStar;\n');
-    fprintf(fID,'1.0E6       double          0.0 < lambdaStar;\n');
-    fprintf(fID,'2.0         double          1.0 < omegaStar;\n');
-    fprintf(fID,'-1.0E25     double          lowerBound;\n');
-    fprintf(fID,'1.0E25      double          upperBound;\n');
-    fprintf(fID,'0.1         double          0.0 <= betaStar <  1.0;\n');
-    fprintf(fID,'0.2         double          0.0 <= betaBar  <  1.0, betaStar <= betaBar;\n');
-    fprintf(fID,'0.7         double          0.0 < gammaStar <  1.0;\n');
-    fprintf(fID,'1.0E-25     double          0.0 < epsilonDash;\n');
-    fprintf(fID,'200         precision;\n');
-    fclose(fID);
-end
+% Path to executable
+path2sdpagmp = '<set-by-installer>';
 
 % Retrieve needed data
 options = interfacedata.options;
@@ -29,6 +11,26 @@ K       = interfacedata.K;
 x0      = interfacedata.x0;
 ub      = interfacedata.ub;
 lb      = interfacedata.lb;
+
+% Check if param.sdpa file exists in pwd
+cleanup = 0;
+if ~exist([pwd,'/param.sdpa'],'file')
+    cleanup = 1;
+    % write it with default parameters, otherwise failure!
+    fID = fopen([pwd,'/param.sdpa'],'w');
+    fprintf(fID,'200         unsigned int    maxIteration;                 \n');
+    fprintf(fID,'1.0E-25     double          0.0 < epsilonStar;            \n');
+    fprintf(fID,'1.0E6       double          0.0 < lambdaStar;             \n');
+    fprintf(fID,'2.0         double          1.0 < omegaStar;              \n');
+    fprintf(fID,'-1.0E25     double          lowerBound;                   \n');
+    fprintf(fID,'1.0E25      double          upperBound;                   \n');
+    fprintf(fID,'0.1         double          0.0 <= betaStar <  1.0;       \n');
+    fprintf(fID,'0.2         double          0.0 <= betaBar  <  1.0, betaStar <= betaBar;\n');
+    fprintf(fID,'0.7         double          0.0 < gammaStar <  1.0;       \n');
+    fprintf(fID,'1.0E-25     double          0.0 < epsilonDash;            \n');
+    fprintf(fID,'200         precision;                                    \n');
+    fclose(fID);
+end
 
 % Bounded variables converted to constraints
 if ~isempty(ub)
@@ -53,7 +55,7 @@ if options.showprogress;showprogress(['Calling ' interfacedata.solver.tag],optio
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% MODIFIED BY GF910 ON 01/08/2015
+% CALL SDPA-GMP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Export to SDPA-GMP, solve and inport results
 FF = cellfun(@full,F,'UniformOutput',false);
@@ -68,22 +70,31 @@ for nn=1:nmax               % loop to construc SDPA problem
 end
 
 tic
-inputSDPA = ['SDPA_GMP_inp','.dat-s'];
-outputSDPA = ['SDPA_GMP_out','.out'];
-header = 'Input from YALMIP';
-my_gensdpafile(inputSDPA,mDIM,nBLOCK,bLOCKsTRUCT,c,FF,header);          % write SDPA-GMP input file
+inputSDPA  = ['sdpagmp_in.dat-s'];
+outputSDPA = ['sdpagmp_out.out'];
+header     = 'Input from YALMIP';
+
+gensdpagmpfile(inputSDPA,mDIM,nBLOCK,bLOCKsTRUCT,c,FF,header);          % write SDPA-GMP input file
 if options.verbose==0
-    system(['echo ',repmat('+',1,100),' >> sdpaOutput.log']);
-    system([path2sdpagmp,'sdpa_gmp ',inputSDPA,' ',outputSDPA,' >> sdpaOutput.log']);          % solve SDP
+    system(['echo ',repmat('+',1,100),' >> sdpagmp.log']);
+    system([path2sdpagmp,'sdpa_gmp ',inputSDPA,' ',outputSDPA,' >> sdpagmp.log']);          % solve SDP
 else
     system(['echo ',repmat('+',1,100)]);
     system([path2sdpagmp,'sdpa_gmp ',inputSDPA,' ',outputSDPA]);          % solve SDP
 end
-[objVal,x,X,Y,INFO] = read_output(outputSDPA,mDIM,nBLOCK,bLOCKsTRUCT); % import results
+% import result
+[objVal,x,X,Y,INFO] = sdpagmp_read_output(outputSDPA,full(mDIM),full(nBLOCK),full(bLOCKsTRUCT));
 solvertime = toc;
 
+% Clean up tmp files created in this directory
+delete(inputSDPA);
+delete(outputSDPA);
+if cleanup
+    delete('param.sdpa');
+end
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% From here onwards, like in YALMIP native package
+% From here onwards, like in YALMIP native callsdpa
 % Create variables in YALMIP internal format
 Primal = x;
 
@@ -143,4 +154,27 @@ end
 
 % Standard interface
 output = createOutputStructure(Primal,Dual,[],problem,infostr,solverinput,solveroutput,solvertime);
-%fprintf('...done!\n')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

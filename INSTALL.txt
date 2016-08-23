@@ -1,89 +1,86 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INSTALL mpYALMIP
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+================================================================================
+                             INSTALL mpYALMIP
+================================================================================
 
-NOTE: YOU NEED TO HAVE YALMIP INSTALLED. THE TOOLBOX IS A SLIGHTLY AND INEFFICIENTLY 
-MODIFIED VERSION OF SOME YALMIP FUNCTIONS, WITHOUT RISKING TO MODIFY YALMIP ITSELF. 
-HOWEVER YOU NEED YALMIP TO MAKE IT ALL WORK!
+DISCLAIMER: This software should work on UNIX systems (currently, SDPA-GMP is not
+available for Windows OS), but it has only been tested with the following setup
 
-YOU ALSO NEED 
-1) SDPA-GMP: install from the website.
-2) SDPA MATLAB TOOLBOX (SDPA-M): this is installed with the standard version
-                                 of SDPA (follow the instructions online).
+OS            : Ubuntu 14.04 
+MATLAB        : 9.0 (R2016a)
+YALMIP version: 20150919
 
-CHECKS: in MATLAB, run 
 
->> yalmiptest 
+================================================================================
+                               1) REQUIREMENTS
+================================================================================
 
+Before you run the script "install_sdpa_gmp", make sure you have
+
+1) SDPA-GMP: download & install from the SDPA website: 
+             http://sdpa.sourceforge.net/download.html
+
+2) SDPA MATLAB toolbox (SDPA-M): this should be installed with the standard 
+             version of SDPA (follow the instructions online).
+
+Checks
+------
+In MATLAB, run 
+
+    >> yalmiptest
+ 
 to check if YALMIP finds SDPA - if so, you have SDPA-M installed.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-(1) Correct Mistake in sdpa/share/sdpa/mex/mexReadOutput.cpp
+================================================================================
+                          2) INSTALL mpYALMIP
+================================================================================
 
-Open the file sdpa/share/sdpa/mex/mexReadOutput.cpp. On line 115 replace
+a) Default SDPA-GMP installation
 
- + strlen("phase.value  = "); 
+The installation assumes that the SDPA-GMP executable binary file (sdpa_gmp) is 
+installed in "/usr/local/bin/". This should be the case if you issued the command
+"make install" after compiling SDPA-GMP. 
 
-with
+In this case, add SDPA-GMP to YALMIP by running
 
- + strlen("phase.value = ");
+>> install_sdpa_gmp 
 
-(GET RID OF THE DOUBLE SPACE BEFORE THE EQUAL). Then recompile the SDPA-M 
-package: in a Terminal window, type
+b) Custom SDPA-GMP installation
 
-$ cd {path-to/sdpa/share/sdpa/mex/mexReadOutput.cpp}
-$ make clean
-$ make
+If the SDPA-GMP executable binary file (sdpa_gmp) is NOT installed in the default
+location "/usr/local/bin/", you need to specify the path explicitly by running
 
-NOTE: this might be different on Windows; check original SDPA installation 
-instructions.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-(2) Install mpYALMIP
-
-a) Add mpYALMIP to the MATLAB path.
-
-b) At the beginning of SDPA_GMP_M.m, change the variable "path2sdpagmp" to 
-   the location of the sdpa_gmp executable. For example,
-
-   path2sdpagmp = '/usr/local/bin/';
-
-c) At the beginning of callsdpagmp.m, change the variable "path2sdpagmp" to 
-   the location of the sdpa_gmp executable. For example,
-
-   path2sdpagmp = '/usr/local/bin/';
+>> install_sdpa_gmp('<path-to-sdpa_gmp>')
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-3) Use mpYALMIP
+NOTE FOR BOTH INSTALLATIONS:
+Please ignore any compilation warnings that might be displayed.
 
-a) You need a file called "param.sdpa" in your MATLAB current working directory
-   for this to work (otherwise, calling sdpa_gmp will fail). 
 
-b) FROM YALMIP: 
+================================================================================
+                          3) USE mpYALMIP
+================================================================================
 
-    (i) For SOS problems defined in yalmip, call
+You can use SDPA-GMP like any normal solver in YALMIP. See the examples for more
+details. 
 
-        >> [sol,m,Q,residuals,everything] = solvesos_SDPAgmp(F,obj,options,params,candidateMonomials)
+NOTE: the solver parameters cannot be set/modified using YALMIP. They must be 
+specified through the parameter file "param.sdpa". See the SDPA-GMP manual for 
+more information.
 
-        in the same way you would use the standard YALMIP command "solvesos".
 
-   (ii) For SDP problems in yalmip, call
+================================================================================
+                         4) UNINSTALL mpYALMIP
+================================================================================
 
-        >> sol = solvesdp_SDPAgmp(Constraint,Objective,options);
+To uninstall SDPA-GMP from YAMIP and revert YALMIP to its "factory settings", 
+simply run
 
-        in the same way you would call the YALMIP command "optimize"
+>> uninstall_sdpa_gmp
 
-  (iii) For SDP problems for which you have Sedumi input A,b,c,K:
+at the Command Line.
 
-        >> [objVal,x,X,Y,INFO] = SDPA_GMP_M(A,b,c,K,accuracy);  % solve problem
 
-        the parameter "accuracy" controls to how many digits the input files
-        are written. Example:
-
-        accuracy = '%16.16g'.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-HAPPY OPTIMISATION!
-
+================================================================================
+                              END OF FILE
+================================================================================

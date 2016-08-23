@@ -1,4 +1,4 @@
-function writeSDPA(mod,filename,header)
+function writesdpagmp(mod,filename,header)
 
 %
 % Export YALMIP problem to SDPA. Inputs: 
@@ -19,4 +19,4 @@ for nn=1:nmax               % loop to construc SDPA problem
         end
     end
 end 
-my_gensdpafile(filename,mod.mDIM,mod.nBLOCK,mod.bLOCKsTRUCT,mod.c,FF,header);
+gensdpagmpfile(filename,mod.mDIM,mod.nBLOCK,mod.bLOCKsTRUCT,mod.c,FF,header);
