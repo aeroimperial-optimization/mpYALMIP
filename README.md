@@ -1,14 +1,46 @@
 # mpYALMIP
 
 An iterface to the multiple-precision solver [SDPA-GMP](http://sdpa.sourceforge.net/download.html) 
-for [YALMIP](http://users.isy.liu.se/johanl/yalmip/).
+for [YALMIP](http://users.isy.liu.se/johanl/yalmip/) in UNIX systems.
 
 ## Contents
 - [Authors](#Authors)
+- [Setup](#Setup)
 - [Licence](#Licence)
 
 ## Authors<a name="Authors"></a>
 - Giovanni Fantuzzi (Department of Aeronautics, Imperial College London, UK. Email: gf910[at]ic.ac.uk)
+
+## Setup<a name="Setup"></a>
+
+The following is a quick installation guide; for more details, see [INSTALL.txt](https://github.com/giofantuzzi/mpYALMIP/blob/master/INSTALL.txt).
+
+#### Preliminary checks
+
+Before you run the script `install_sdpa_gmp.m`, make sure you have installed
+
+1. SDPA-GMP: download & install from the [SDPA website](http://sdpa.sourceforge.net/download.html)
+2. SDPA MATLAB toolbox (SDPA-M): this should be installed with the standard version of SDPA (see [here](http://sdpa.sourceforge.net/download.html) for details).
+
+
+In MATLAB, run 
+
+    >> yalmiptest
+ 
+to check if YALMIP finds SDPA - if so, you have SDPA-M installed.
+
+
+#### Setup (default SDPA-GMP location)
+
+This setup assumes that the SDPA-GMP executable binary file (`sdpa_gmp`) is 
+installed in `/usr/local/bin/`. This should be the case if you issued the command
+`make install` after compiling SDPA-GMP. 
+
+In this case, add SDPA-GMP to YALMIP by running
+
+    >> install_sdpa_gmp 
+
+Please ignore any compilation warnings that might be displayed.
 
 ## Licence<a name="Licence"></a>
 mpYALMIP is free software: you can redistribute it and/or modify it 
