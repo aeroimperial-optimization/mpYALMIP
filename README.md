@@ -3,8 +3,12 @@
 An iterface to the multiple-precision solver [SDPA-GMP](http://sdpa.sourceforge.net/download.html) 
 for [YALMIP](http://users.isy.liu.se/johanl/yalmip/).
 
+## Contents
+- [Authors](Authors)
+- [Licence](Licence)
+
 ## Authors
-Giovanni Fantuzzi, Imperial College London
+- Giovanni Fantuzzi (Department of Aeronautics, Imperial College London, UK. Email: gf910[at]ic.ac.uk)
 
 ## Licence
 mpYALMIP is free software: you can redistribute it and/or modify it 
