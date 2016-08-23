@@ -1,6 +1,6 @@
 # mpYALMIP
 
-An iterface to the multiple-precision solver [SDPA-GMP](http://sdpa.sourceforge.net/download.html) 
+An interface to the multiple-precision solver [SDPA-GMP](http://sdpa.sourceforge.net/download.html) 
 for [YALMIP](http://users.isy.liu.se/johanl/yalmip/) in UNIX systems.
 
 ## Contents
