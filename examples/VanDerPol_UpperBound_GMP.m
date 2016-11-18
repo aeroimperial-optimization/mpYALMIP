@@ -1,16 +1,32 @@
-% Upper Bound - Van der Pol
+% Upper Bound - Van der Pol oscillator
+% Computes an upper bound for the energy x^2+y^2 for a stochastic van der pol
+% oscillator. For more details, see
+%
+% G. Fantuzzi, D. Goluskin, D. Huang, S. I. Chernyshenko, "Bounds for
+% deterministic and stochastic dynamical systems using sum-of-squares
+% optimization", SIAM Journal on Applied Dynamical Systems, 15(4), 1962–1988.
+%
 % Compare to simulation data
 % Only add noise to the acceleration - physically consistent!
 
-clear; yalmip('clear')
+% --------------------
+% Housekeeping
+% --------------------
+clear; 
+yalmip('clear')
+
+% --------------------
+% Useful variables
+% --------------------
 solver = 'sdpa-gmp';
 verb = 1;
+muVals   = [4];
+degPvals = [6];
+epsvals  = [0];     % change 0 to a nonzero value to add 
 
-muVals = [1];
-degPvals = [12];
-epsvals = 0*muVals;
-
-
+% ----------------------
+% The actual computation
+% ----------------------
 for m = 1:length(degPvals)
     for n = 1:length(muVals)
         
@@ -38,10 +54,11 @@ for m = 1:length(degPvals)
 
         % Setup SOS problem to minimize U
         opts = sdpsettings('solver',solver,...
-                            'sos.newton',1,...
-                            'sos.congruence',1,...
+                            'sos.newton',0,...
+                            'sos.congruence',0,...
                             'verbose',verb,...
                             'savesolveroutput',1,...
+                            'savesolverinput',1,...
                             'cachesolvers',1);
         opts.sdpt3.maxit = 200;
         [sol,v,Q,res] = solvesos(sos(ineq),U,opts,[U;Pc]);
@@ -51,5 +68,3 @@ for m = 1:length(degPvals)
         
     end
 end
-
-hold on; plot(muVals,Uvals)
