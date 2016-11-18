@@ -23,9 +23,9 @@ function install_sdpa_gmp(varargin)
 % ----------------------------------------------------------------------- %
 % WINDOWS USERS NOT SUPPORTED
 % ----------------------------------------------------------------------- %
-if ispc
-    error('SDPA-GMP currently can only be compiled on UNIX systems. Sorry!')
-end
+% if ispc
+%     error('SDPA-GMP currently can only be compiled on UNIX systems. Sorry!')
+% end
 
 
 % ----------------------------------------------------------------------- %
@@ -50,6 +50,9 @@ end
 % CHECK INPUTS
 % ----------------------------------------------------------------------- %
 if nargin == 0
+    if ispc
+    	error('To install on Windows system, please run install_sdpa_gmp(''path-to-SDPA-GMP'')')
+    end
     PATH2EXE = '/usr/local/bin';
 elseif nargin == 1 && ischar(varargin{1})
     PATH2EXE = fileparts(varargin{1});
@@ -117,7 +120,7 @@ end
 % ----------------------------------------------------------------------- %
 % ADD UTILS TO MATLAB PATH
 % ----------------------------------------------------------------------- %
-addpath([pwd,filesep,'utils/']);
+addpath([pwd,filesep,'utils',filesep]);
 savepath;
 
 

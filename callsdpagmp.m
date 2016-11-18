@@ -14,10 +14,10 @@ lb      = interfacedata.lb;
 
 % Check if param.sdpa file exists in pwd
 cleanup = 0;
-if ~exist([pwd,'/param.sdpa'],'file')
+if ~exist([pwd,filesep,'param.sdpa'],'file')
     cleanup = 1;
     % write it with default parameters, otherwise failure!
-    fID = fopen([pwd,'/param.sdpa'],'w');
+    fID = fopen([pwd,filesep,'param.sdpa'],'w');
     fprintf(fID,'200         unsigned int    maxIteration;                 \n');
     fprintf(fID,'1.0E-25     double          0.0 < epsilonStar;            \n');
     fprintf(fID,'1.0E6       double          0.0 < lambdaStar;             \n');
@@ -34,7 +34,12 @@ end
 
 % Bounded variables converted to constraints
 if ~isempty(ub)
-    [F_struc,K] = addbounds(F_struc,K,ub,lb);
+    % addbounds was renamed somewhere along the way in YALMIP?
+    try
+        [F_struc,K] = addbounds(F_struc,K,ub,lb);
+    catch
+        [F_struc,K] = addStructureBounds(F_struc,K,ub,lb);
+    end
 end
 
 % Convert from internal (sedumi) format
@@ -51,7 +56,9 @@ if options.savedebug
     save sdpadebug mDIM nBLOCK bLOCKsTRUCT c F ops
 end
 
-if options.showprogress;showprogress(['Calling ' interfacedata.solver.tag],options.showprogress);end
+if options.showprogress;
+    showprogress(['Calling ' interfacedata.solver.tag],options.showprogress);
+end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
