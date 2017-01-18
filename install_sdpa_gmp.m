@@ -87,7 +87,7 @@ fname = which('definesolvers');
 % make a backup copy of the original YALMIP file
 fpath = fileparts(fname);
 success = copyfile(fname,[fpath,filesep,'definesolvers_original.m']);
-if ~success;
+if ~success
     error('Could not back up the file definesolvers.m')
 end
 
@@ -112,7 +112,7 @@ fclose(fid);
 % ----------------------------------------------------------------------- %
 fpath = fileparts(which('callsdpa'));
 success = movefile('callsdpagmp.m',[fpath,filesep,'callsdpagmp.m']);
-if ~success;
+if ~success
     error('Could not copy callsdpagmp.m to the correct location.')
 end
 
