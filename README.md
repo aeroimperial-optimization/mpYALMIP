@@ -30,17 +30,25 @@ In MATLAB, run
 to check if YALMIP finds SDPA - if so, you have SDPA-M installed.
 
 
-#### Setup (default SDPA-GMP location)
+#### Setup
 
-This setup assumes that the SDPA-GMP executable binary file (`sdpa_gmp`) is 
+The following instructions assume that the SDPA-GMP executable binary file 
+(`sdpa_gmp`) is 
 installed in `/usr/local/bin/`. This should be the case if you issued the command
 `make install` after compiling SDPA-GMP. 
-
 In this case, add SDPA-GMP to YALMIP by running
 
     >> install_sdpa_gmp 
 
-Please ignore any compilation warnings that might be displayed.
+If you have installed SDPA-GMP in another location, you should be able to add it
+to YALMIP by running
+
+    >> install_sdpa_gmp('path/to/sdpa/gmp')
+
+where `'path/to/sdpa/gmp'` is the path to your SDPA-GMP installation.
+
+**Note:** please ignore any compilation warnings that might be displayed.
+
 
 ## Licence<a name="Licence"></a>
 mpYALMIP is free software: you can redistribute it and/or modify it 
