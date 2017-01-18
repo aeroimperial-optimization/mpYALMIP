@@ -50,7 +50,10 @@ b) Custom SDPA-GMP installation
 If the SDPA-GMP executable binary file (sdpa_gmp) is NOT installed in the default
 location "/usr/local/bin/", you need to specify the path explicitly by running
 
->> install_sdpa_gmp('<path-to-sdpa_gmp>')
+>> install_sdpa_gmp('path/to/sdpa/gmp')
+
+where 'path/to/sdpa/gmp' is a string specifying the path to your SDPA-GMP
+installation.
 
 
 NOTE FOR BOTH INSTALLATIONS:
