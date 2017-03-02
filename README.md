@@ -3,6 +3,8 @@
 An interface to the multiple-precision solver [SDPA-GMP](http://sdpa.sourceforge.net/download.html) 
 for [YALMIP](http://users.isy.liu.se/johanl/yalmip/) in UNIX systems.
 
+**Bug report:** a bug in the installer/uninstaller functions in version 1.1 prevents successful installation. If you are using mpYALMIP v1.1, please update to v1.1.1 or later.
+
 ## Contents
 - [Authors](#Authors)
 - [Setup](#Setup)
