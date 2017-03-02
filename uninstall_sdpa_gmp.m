@@ -69,7 +69,12 @@ end
 % RESET PATH TO EXECUTABLE
 % ----------------------------------------------------------------------- %
 A = regexp( fileread('callsdpagmp.m'), '\n', 'split');
-A{4} = sprintf('path2sdpagmp = ''<set-by-installer>'';');
+for i = 1:length(A)
+    if ~isempty(regexp(A{i},'path2sdpagmp =', 'once'))
+        A{i} = 'path2sdpagmp = ''<set-by-installer>'';';
+        break
+    end
+end
 fid = fopen('callsdpagmp.m', 'w');
 fprintf(fid, '%s\n', A{:});
 fclose(fid);

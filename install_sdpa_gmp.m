@@ -38,9 +38,9 @@ function install_sdpa_gmp(varargin)
 % ----------------------------------------------------------------------- %
 % WINDOWS USERS NOT SUPPORTED
 % ----------------------------------------------------------------------- %
-% if ispc
-%     error('SDPA-GMP currently can only be compiled on UNIX systems. Sorry!')
-% end
+if ispc
+    error('SDPA-GMP currently can only be compiled on UNIX systems. Sorry!')
+end
 
 
 % ----------------------------------------------------------------------- %
@@ -66,7 +66,7 @@ end
 % ----------------------------------------------------------------------- %
 if nargin == 0
     if ispc
-    	error('To install on Windows system, please run install_sdpa_gmp(''path-to-SDPA-GMP'')')
+        error('To install on Windows system, please run install_sdpa_gmp(''path-to-SDPA-GMP'')')
     end
     PATH2EXE = '/usr/local/bin';
 elseif nargin == 1 && ischar(varargin{1})
@@ -88,7 +88,12 @@ end
 % SET PATH TO EXECUTABLE
 % ----------------------------------------------------------------------- %
 A = regexp( fileread('callsdpagmp.m'), '\n', 'split');
-A{4} = sprintf('path2sdpagmp = ''%s'';',[PATH2EXE,filesep]);
+for i = 1:length(A)
+    if ~isempty(regexp(A{i},'path2sdpagmp =', 'once'))
+        A{i} = sprintf('path2sdpagmp = ''%s'';',[PATH2EXE,filesep]);
+        break
+    end
+end
 fid = fopen('callsdpagmp.m', 'w');
 fprintf(fid, '%s\n', A{:});
 fclose(fid);
@@ -102,7 +107,7 @@ fname = which('definesolvers');
 % make a backup copy of the original YALMIP file
 fpath = fileparts(fname);
 success = copyfile(fname,[fpath,filesep,'definesolvers_original.m']);
-if ~success
+if ~success;
     error('Could not back up the file definesolvers.m')
 end
 
@@ -127,7 +132,7 @@ fclose(fid);
 % ----------------------------------------------------------------------- %
 fpath = fileparts(which('callsdpa'));
 success = movefile('callsdpagmp.m',[fpath,filesep,'callsdpagmp.m']);
-if ~success
+if ~success;
     error('Could not copy callsdpagmp.m to the correct location.')
 end
 

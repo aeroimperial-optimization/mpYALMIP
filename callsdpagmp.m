@@ -1,7 +1,6 @@
 function output = callsdpagmp(interfacedata)
 
 % CALLSDPAGMP.m Call SDPA-GMP from YALMIP
-%
 % ----------------------------------------------------------------------- %
 %        Author:    Giovanni Fantuzzi
 %                   Department of Aeronautics
@@ -185,6 +184,8 @@ end
 
 % Standard interface
 output = createOutputStructure(Primal,Dual,[],problem,infostr,solverinput,solveroutput,solvertime);
+
+
 
 
 
