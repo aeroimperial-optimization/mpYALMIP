@@ -21,11 +21,9 @@ The following is a quick installation guide; for more details, see [INSTALL.txt]
 
 #### Preliminary checks
 
-Before you run the script `install_sdpa_gmp.m`, make sure you have installed
+Before you run the script `install_sdpa_gmp.m`, make sure you have installed SDPA-GMP (download & install from the [SDPA website](http://sdpa.sourceforge.net/download.html)).
 
-SDPA-GMP: download & install from the [SDPA website](http://sdpa.sourceforge.net/download.html)
-
-For detailed installation instructions of the required software (for Windows but also valid in UNIX-based systems) see [InstallWindowsReqs.txt](https://github.com/giofantuzzi/mpYALMIP/blob/master/InstallWindowsReqs.txt)
+For detailed instructions to install the required software (for Windows but also valid in UNIX-based systems) see [InstallWindowsReqs.txt](https://github.com/giofantuzzi/mpYALMIP/blob/master/InstallWindowsReqs.txt).
 
 
 #### Setup
