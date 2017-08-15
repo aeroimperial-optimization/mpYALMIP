@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------
 
 This file is a component of SDPA
-Copyright (C) 2004-2012 SDPA Project
+Copyright (C) 2004-2013 SDPA Project
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 ------------------------------------------------------------- */
 /*---------------------------------------------------
-function [objVal,x,X,Y,INFO] = read_output(filename,mDIM,nBLOCK,bLOCKsTRUCT);
+function [objVal,x,X,Y,INFO] = sdpagmp_read_output(filename,mDIM,nBLOCK,bLOCKsTRUCT);
 ---------------------------------------------------*/
 
 #include <iostream>
@@ -112,7 +112,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
     }
   }
   char* phasevalue = strstr(str,"phase.value") 
-    + strlen("phase.value = ");
+    + strlen("phase.value  = ");
   for (mwSize strIndex = 0; strIndex < 30; ++strIndex) {
     if ( phasevalue[strIndex] == ' '
 	 || phasevalue[strIndex] == '\n') { // remove redundant space

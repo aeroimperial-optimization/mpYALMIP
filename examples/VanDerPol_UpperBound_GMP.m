@@ -40,7 +40,7 @@ yalmip('clear')
 % --------------------
 % Useful variables
 % --------------------
-solver = 'sdpa-gmp';
+solver = 'sdpa_gmp';
 verb = 1;
 muVals   = [4];
 degPvals = [6];
@@ -82,6 +82,8 @@ for m = 1:length(degPvals)
                             'savesolveroutput',1,...
                             'savesolverinput',1,...
                             'cachesolvers',1);
+        opts.sdpa_gmp.epsilonDash = 1.0e-10;
+        opts.sdpa_gmp.precision = 100;
         opts.sdpt3.maxit = 200;
         [sol,v,Q,res] = solvesos(sos(ineq),U,opts,[U;Pc]);
         fprintf('\nUpper bound: U = %f\n\n',value(U));

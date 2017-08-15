@@ -1,0 +1,91 @@
+These are some instructions to install the required software before installing (multiple-precision) mpYALMIP in Windows 10 systems. However, the same steps apply for UNIX-based systems in the case of installing GMP and SDPA-GMP (steps 2. and 3. below).
+
+1. Install Bash on Ubuntu on Windows
+  NOTE: There are several sources online on how to install this software on Windows 10.
+
+2. Install GMP
+  a. Open Bash on Ubuntu on Windows
+  b. Update packages first - run (put your password whenever necessary):
+    $ sudo apt-get update
+    $ sudo apt-get upgrade
+    $ sudo apt-get install build-essential
+    $ sudo apt-get install m4
+  c. Download GMP - assuming you are in your home directory ($cd ~) usually of the form "/home/username" (or wherever you want to download the GMP installation files):
+    $ mkdir downloads
+    $ chmod 755 downloads/
+    $ wget https://gmplib.org/download/gmp/gmp-6.1.2.tar.xz
+    $ chmod 755 gmp-6.1.2.tar.xz
+    $ tar xf gmp-6.1.2.tar.xz
+    $ cd gmp-6.1.2
+    NOTE: You may change the version "gmp-6.1.2" for whichever version is the most recent.
+  d. Install GMP in "usr/local/gmp" or your preferred directory (assuming you are in the "gmp-6.1.2" directory):
+    $ ./configure --prefix=/usr/local/gmp --enable-cxx
+    $ make
+    $ make check
+    $ sudo make install
+    $ cd ..
+    NOTE: Be patient.
+
+3. Install SDPA-GMP
+  a. Download SDPA-GMP - assuming you are in the "downloads" directory created in step 2.c. (or wherever you want to download the SDPA-GMP installation files):
+    $ wget https://sourceforge.net/projects/sdpa/files/sdpa-gmp/sdpa-gmp-7.1.3.src.20150320.tar.gz
+    $ sudo chmod 755 sdpa-gmp-7.1.3.src.20150320.tar.gz
+    $ tar xvzf sdpa-gmp-7.1.3.src.20150320.tar.gz
+    $ cd sdpa-gmp-7.1.3/
+    $ ./configure --with-gmp-includedir=/usr/local/gmp/include --with-gmp-libdir=/usr/local/gmp/lib
+    $ make
+    NOTE: You may change the version "sdpa-gmp-7.1.3" for whichever version is the most recent.
+    NOTE: Everything will be installed locally inside the directory "sdpa-gmp-7.1.3/" (if all the instructions have been followed verbatim it should be in the directory "~/downloads/sdpa-gmp-7.1.3/")
+  b. Check installation - assuming you are in the installation directory "sdpa-gmp-7.1.3/".
+  	i. Check "help" message (you should get the same output as below):
+      $ sdpa_gmp
+
+      SDPA-GMP start at    Weekday Month  Day Time Year
+
+      *** Please assign data file and output file.***
+
+      ---- option type 1 ------------
+      sdpa_gmp DataFile OutputFile [InitialPtFile] [-pt parameters]
+      parameters = 0 default, 1 fast (unstable), 2 slow (stable)
+      example1-1: sdpa_gmp example1.dat example1.result
+      example1-2: sdpa_gmp example1.dat-s example1.result
+      example1-3: sdpa_gmp example1.dat example1.result example1.ini
+      example1-4: sdpa_gmp example1.dat example1.result -pt 2
+
+      ---- option type 2 ------------
+      sdpa_gmp [option filename]+
+        -dd : data dense :: -ds : data sparse
+        -id : init dense :: -is : init sparse
+        -o  : output     :: -p  : parameter
+        -pt : parameters , 0 default, 1 fast (unstable)
+                           2 slow (stable)
+      example2-1: sdpa_gmp -o example1.result -dd example1.dat
+      example2-2: sdpa_gmp -ds example1.dat-s -o example2.result -p param.sdpa
+      example2-3: sdpa_gmp -ds example1.dat-s -o example3.result -pt 2
+    ii. Run examples:
+      $ sdpa_gmp example1.dat example1.result
+      $ sdpa_gmp example1.dat-s example1.result
+      $ sdpa_gmp example1.dat example1.result example1.ini
+      $ sdpa_gmp example1.dat example1.result -pt 2
+      $ sdpa_gmp -o example1.result -dd example1.dat
+      $ sdpa_gmp -ds example1.dat-s -o example2.result -p param.sdpa
+      $ sdpa_gmp -ds example1.dat-s -o example3.result -pt 2
+  c. Make a copy in /usr/local/bin - sometimes one wishes to have the installation here (or anywhere else for that matter):
+    $ sudo cp sdpa_gmp /usr/local/bin
+    NOTE: The file should now be executable from this new location as well.
+
+4. Install MinGW-w64 compiler for Windows via MATLAB
+  NOTE: This allows to compile mex files in Windows, but if the binaries are provided it is not necessary to make any mex compilations.
+  a. Open MATLAB in any location
+  b. Check if the MinGW-w64 compiler is already installed by running:
+    >> mex -setup
+  c. If you get the message: "Error using mex No supported compiler or SDK was found...", then it is not installed and you must proceed with the installation as described below. Otherwise you should get a message: "MEX configured to use..." and there is no need to follow the steps below.
+  d. Download the 'mingw.mlpkginstall' file from https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/submissions/52848/versions/20/download/mlpkginstall or simply search for "MATLAB Support for MinGW-w64 C/C++ Compiler" online. Save the 'mingw.mlpkginstall' file in a known location.
+  e. Within MATLAB, go to directory where the file "mingw.mlpkginstall" lies.
+  f. Double click the file from within MATLAB or type: 
+    >> uiopen('mingw.mlpkginstall',1)
+  g. Put your MathWorks credentials (you can make an account for free and do not need to have a MATLAB license associated to your account).
+  h. Wait for installation.
+  i. Check your installation by running:
+    >> mex -setup
+    NOTE: You should get a message: "MEX configured to use...".
