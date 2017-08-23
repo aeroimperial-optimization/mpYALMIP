@@ -1,19 +1,19 @@
 # mpYALMIP
 
 An interface to the multiple-precision solver [SDPA-GMP](http://sdpa.sourceforge.net/download.html) 
-for [YALMIP](http://users.isy.liu.se/johanl/yalmip/) in UNIX-based and Windows systems.
+for [YALMIP](http://users.isy.liu.se/johanl/yalmip/) in UNIX-based and Windows systems. You can also use SDPA-GMP remotely on the [NEOS server](https://neos-server.org/neos/): check out [mpYALIMP-neos](https://github.com/htadashi/mpYALMIP-neos)!
 
-**Windows users:** you can also use SDPA-GMP remotely on the [NEOS server](https://neos-server.org/neos/); check out [mpYALIMP-neos](https://github.com/htadashi/mpYALMIP-neos)!
-
-**Bug report:** a bug in the installer/uninstaller functions in version 1.1 prevents successful installation. If you are using mpYALMIP v1.1, please update to v1.1.1 or later.
+**Bug report:** Windows users: please download and install v1.1.2, as previous versions cannot be used in Qindows. UNIX-based systems: a bug in the installer/uninstaller functions in version 1.1 prevents successful installation. If you have downloaded mpYALMIP v1.1, please update to v1.1.1 or later. 
 
 ## Contents
 - [Authors](#Authors)
 - [Setup](#Setup)
+- [How to use](#Use)
 - [Licence](#Licence)
 
 ## Authors<a name="Authors"></a>
 - Giovanni Fantuzzi (Department of Aeronautics, Imperial College London, UK. Email: gf910[at]ic.ac.uk)
+- Federico Fuentes (Institute for Computational Engineering and Sciences (ICES), The University of Texas at Austin, USA)
 
 ## Setup<a name="Setup"></a>
 
@@ -43,6 +43,15 @@ where `'path/to/sdpa/gmp/'` is the path to your SDPA-GMP installation. The path 
 directory, ending with `/`, where the `sdpa_gmp` executable lies.
 
 **Note:** please ignore any compilation warnings that might be displayed.
+
+## How to use<a name="Use"></a>
+
+Once installed, you can use SDPA-GMP like any other solver in YALMIP. You can specify the solver's options using the 
+`sdpsettings()` command. For example, you can set YALMIP's options to use SDPA-GMP with 100 digits of precision with the command
+
+    >> opts = sdpsettings('solver','sdpa_gmp','sdpa_gmp.precision',100);
+
+For a complete list of options, please refer to SDPA-GMP's manual.
 
 
 ## Licence<a name="Licence"></a>
