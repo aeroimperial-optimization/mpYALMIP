@@ -1,9 +1,9 @@
 # mpYALMIP
 
 An interface to the multiple-precision solver [SDPA-GMP](http://sdpa.sourceforge.net/download.html) 
-for [YALMIP](http://users.isy.liu.se/johanl/yalmip/) in UNIX systems.
+for [YALMIP](http://users.isy.liu.se/johanl/yalmip/) in UNIX-based and Windows systems.
 
-**Windows users:** if you are interested in using SDPA-GMP from YALMIP but are running Windows, you should now be able to use SDPA-GMP remotely on the [NEOS server](https://neos-server.org/neos/); check out [mpYALIMP-neos](https://github.com/htadashi/mpYALMIP-neos)!
+**Windows users:** you can also use SDPA-GMP remotely on the [NEOS server](https://neos-server.org/neos/); check out [mpYALIMP-neos](https://github.com/htadashi/mpYALMIP-neos)!
 
 **Bug report:** a bug in the installer/uninstaller functions in version 1.1 prevents successful installation. If you are using mpYALMIP v1.1, please update to v1.1.1 or later.
 
@@ -21,25 +21,15 @@ The following is a quick installation guide; for more details, see [INSTALL.txt]
 
 #### Preliminary checks
 
-Before you run the script `install_sdpa_gmp.m`, make sure you have installed
+Before you run the script `install_sdpa_gmp.m`, make sure you have installed SDPA-GMP (download & install from the [SDPA website](http://sdpa.sourceforge.net/download.html)).
 
-1. SDPA-GMP: download & install from the [SDPA website](http://sdpa.sourceforge.net/download.html)
-2. SDPA MATLAB toolbox (SDPA-M): this should be installed with the standard version of SDPA (see [here](http://sdpa.sourceforge.net/download.html) for details).
-
-
-In MATLAB, run 
-
-    >> yalmiptest
- 
-to check if YALMIP finds SDPA - if so, you have SDPA-M installed.
+For detailed instructions to install the required software (for Windows but also valid in UNIX-based systems) see [InstallWindowsReqs.txt](https://github.com/giofantuzzi/mpYALMIP/blob/master/InstallWindowsReqs.txt).
 
 
 #### Setup
 
 The following instructions assume that the SDPA-GMP executable binary file 
-(`sdpa_gmp`) is 
-installed in `/usr/local/bin/`. This should be the case if you issued the command
-`make install` after compiling SDPA-GMP. 
+(`sdpa_gmp`) is installed in `/usr/local/bin/`. 
 In this case, add SDPA-GMP to YALMIP by running
 
     >> install_sdpa_gmp 
@@ -47,9 +37,10 @@ In this case, add SDPA-GMP to YALMIP by running
 If you have installed SDPA-GMP in another location, you should be able to add it
 to YALMIP by running
 
-    >> install_sdpa_gmp('path/to/sdpa/gmp')
+    >> install_sdpa_gmp('path/to/sdpa/gmp/')
 
-where `'path/to/sdpa/gmp'` is the path to your SDPA-GMP installation.
+where `'path/to/sdpa/gmp/'` is the path to your SDPA-GMP installation. The path should be to the `sdpa_gmp` executable itself or to the
+directory, ending with `/`, where the `sdpa_gmp` executable lies.
 
 **Note:** please ignore any compilation warnings that might be displayed.
 

@@ -2,12 +2,20 @@
                              INSTALL mpYALMIP
 ================================================================================
 
-DISCLAIMER: This software should work on UNIX systems (currently, SDPA-GMP is not
-available for Windows OS), but it has only been tested with the following setup
+This software is a MATLAB interface that allows to use the SDPA-GMP solver 
+through YALMIP. It allows to tackle SDP problems that may internally require 
+multiple-precision (mp) to be solved successfully.
+
+DISCLAIMER: This software should work on UNIX-based systems and Windows systems 
+(>=10), but it has only been tested with the following setups.
 
 OS            : Ubuntu 14.04 
 MATLAB        : 9.0 (R2016a)
 YALMIP version: 20150919
+
+OS            : Windows 10 
+MATLAB        : 9.1 (R2016b)
+YALMIP version: 20170622
 
 
 ================================================================================
@@ -16,19 +24,26 @@ YALMIP version: 20150919
 
 Before you run the script "install_sdpa_gmp", make sure you have
 
-1) SDPA-GMP: download & install from the SDPA website: 
+UNIX-BASED:
+
+1) GMP: download & install from the GMP website:
+        https://gmplib.org/#DOWNLOAD
+2) SDPA-GMP: download & install from the SDPA website: 
              http://sdpa.sourceforge.net/download.html
+NOTE: More detailed instructions to install these requirements can also be 
+      consulted in the file:
+                        InstallWindowsReqs.txt
 
-2) SDPA MATLAB toolbox (SDPA-M): this should be installed with the standard 
-             version of SDPA (follow the instructions online).
 
-Checks
-------
-In MATLAB, run 
+WINDOWS:
 
-    >> yalmiptest
- 
-to check if YALMIP finds SDPA - if so, you have SDPA-M installed.
+Detailed installation instructions of all requirements are included in the file:
+                        InstallWindowsReqs.txt
+The requirements are:
+1) Bash on Ubuntu on Windows
+2) GMP
+3) SDPA-GMP
+4) MinGW-w64 compiler for Windows via MATLAB
 
 
 ================================================================================
@@ -38,45 +53,67 @@ to check if YALMIP finds SDPA - if so, you have SDPA-M installed.
 a) Default SDPA-GMP installation
 
 The installation assumes that the SDPA-GMP executable binary file (sdpa_gmp) is 
-installed in "/usr/local/bin/". This should be the case if you issued the command
-"make install" after compiling SDPA-GMP. 
+installed in "/usr/local/bin/". Even if this is not the case you may copy the 
+executable from wherever you installed it to the directory "/usr/local/bin/" by
+running "$ sudo cp sdpa_gmp /usr/local/bin/".
+NOTE: In Windows this refers to the path within the Ubuntu subsystem where 
+the executable (sdpa_gmp) lies, not the usual Windows path. 
 
 In this case, add SDPA-GMP to YALMIP by running
 
 >> install_sdpa_gmp 
+
+NOTE: In Windows, during installation a Command Prompt will open. This is normal
+      and you may close it after the installation is finished in MATLAB.
+
 
 b) Custom SDPA-GMP installation
 
 If the SDPA-GMP executable binary file (sdpa_gmp) is NOT installed in the default
 location "/usr/local/bin/", you need to specify the path explicitly by running
 
->> install_sdpa_gmp('path/to/sdpa/gmp')
+>> install_sdpa_gmp('/path/to/sdpa/gmp/')
 
-where 'path/to/sdpa/gmp' is a string specifying the path to your SDPA-GMP
-installation.
-
+where '/path/to/sdpa/gmp/' is a string specifying the path to your SDPA-GMP
+installation. The path should be to the 'sdpa_gmp' executable itself or to the
+directory, ending with '/', where the 'sdpa_gmp' executable lies.  
+NOTE: In Windows this refers to the path within the Ubuntu subsystem where 
+the executable (sdpa_gmp) lies, not the usual Windows path. 
 
 NOTE FOR BOTH INSTALLATIONS:
 Please ignore any compilation warnings that might be displayed.
 
 
 ================================================================================
-                          3) USE mpYALMIP
+                          3) CHECK mpYALMIP
+================================================================================
+
+Run:
+
+>> yalmiptest(sdpsettings('solver','sdpa_gmp'))
+
+NOTE: In Windows every time you solve with SDPA-GMP a Command Prompt with the
+      output from the solver will open. This is normal. Once the tests are
+      finished you can close all those Command Prompts.
+
+
+================================================================================
+                          4) USE mpYALMIP
 ================================================================================
 
 You can use SDPA-GMP like any normal solver in YALMIP. See the examples for more
 details. 
 
-NOTE: the solver parameters cannot be set/modified using YALMIP. They must be 
-specified through the parameter file "param.sdpa". See the SDPA-GMP manual for 
-more information.
+NOTE: In Windows every time you solve with SDPA-GMP a Command Prompt with the
+      output from the solver will open. This is normal. Once the solve is
+      finished you can close that Command Prompt.
 
 
 ================================================================================
-                         4) UNINSTALL mpYALMIP
+                         5) UNINSTALL mpYALMIP
 ================================================================================
 
-To uninstall SDPA-GMP from YAMIP and revert YALMIP to its "factory settings", 
+To uninstall SDPA-GMP from YALMIP and revert YALMIP to its "factory settings", 
 simply run
 
 >> uninstall_sdpa_gmp

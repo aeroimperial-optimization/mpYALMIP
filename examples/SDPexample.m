@@ -25,7 +25,8 @@
 %     You should have received a copy of the GNU General Public License
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 % ----------------------------------------------------------------------- %
-clear; yalmip('clear');
+% clear;
+yalmip clear;
 
 % PROBLEM
 
@@ -33,6 +34,9 @@ A = [-1 2 0;-3 -4 1;0 0 -2];
 P = sdpvar(3,3);
 F = [P >= 0, A'*P+P*A <= 0, trace(P)==1];
 obj = P(1,1);
+% epsilon = sdpvar(1);
+% F = [P >= epsilon*eye(3), A'*P+P*A <= 0, trace(P)==1];
+% obj = -epsilon;
 opts = sdpsettings('verbose',1,'solver','sedumi','cachesolvers',1);
 
 % YALMIP SOLUTION...
@@ -46,8 +50,10 @@ optVal = value(obj)
 % YALMIP will ignore the solver specified in opts!
 % Easy to recover original variables...
 fprintf('%s\n',repmat('+',1,50))
-opts = sdpsettings(opts,'solver','sdpa-gmp');
 fprintf('SDPA-GMP solution with YALMIP:\n');
+opts = sdpsettings('verbose',1,'solver','sdpa_gmp','cachesolvers',1);
+opts.sdpa_gmp.epsilonDash = 1.0e-25;
+opts.sdpa_gmp.precision = 150;
 sol = optimize(F,obj,opts);
 Pfeas = value(P)
 optVal = value(obj)
