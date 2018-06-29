@@ -3,7 +3,7 @@
 An interface to the multiple-precision solver [SDPA-GMP](http://sdpa.sourceforge.net/download.html) 
 for [YALMIP](http://users.isy.liu.se/johanl/yalmip/) in UNIX-based and Windows systems. You can also use SDPA-GMP remotely on the [NEOS server](https://neos-server.org/neos/): check out [mpYALIMP-neos](https://github.com/htadashi/mpYALMIP-neos)!
 
-**Bug report:** 
+**Known issues:** 
 - Windows users: please download and install v1.1.2, as previous versions cannot be used in Windows. UNIX-based systems: a bug in the installer/uninstaller functions in version 1.1 prevents successful installation. If you have downloaded mpYALMIP v1.1, please update to v1.1.1 or later. 
 - All users: when testing the installation with the command "yalmiptest sdpa_gmp", YALMIP reports an "Unknown Error" instead of success for the test problem. *However, sdpa-gmp should actually be working correctly*. Please test your installation by running the test problems in the folder `examples/`
 
