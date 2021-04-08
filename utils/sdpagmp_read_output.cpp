@@ -112,7 +112,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
     }
   }
   char* phasevalue = strstr(str,"phase.value") 
-    + strlen("phase.value  = ");
+    + strlen("phase.value = ");
   for (mwSize strIndex = 0; strIndex < 30; ++strIndex) {
     if ( phasevalue[strIndex] == ' '
 	 || phasevalue[strIndex] == '\n') { // remove redundant space
